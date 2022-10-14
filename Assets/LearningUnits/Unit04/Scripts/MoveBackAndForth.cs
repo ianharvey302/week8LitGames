@@ -6,7 +6,7 @@ public class MoveBackAndForth : MonoBehaviour
 {
     [SerializeField] GameObject destinationObject;
 
-    Vector3 startPosition;
+    Vector3 startPosition, endPosition;
     [SerializeField] float moveSpeed;
     float moveAmount;
 
@@ -24,6 +24,7 @@ public class MoveBackAndForth : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
+        endPosition = destinationObject.transform.position;
         moveAmount = 0;
     }
 
@@ -33,7 +34,7 @@ public class MoveBackAndForth : MonoBehaviour
         // Lerp means "linear interpolation"-- it figures out the number between two numbers based 
         // on a percentage from 0 to 1, e.g. Lerp(2,4,.5f) = 3 because 3 is halfway between 2 and 4.
         // Lerp methods can be done to floats, Vectors, and a few other values
-        transform.position = Vector3.Lerp(startPosition, destinationObject.transform.position, moveAmount);
+        transform.position = Vector3.Lerp(startPosition, endPosition, moveAmount);
 
         moveAmount += moveSpeed;// We increase the moveAmount based on the moveSpped, and therefore 
         // change the position in the Lerp method above on the next Update() cycle
@@ -41,10 +42,13 @@ public class MoveBackAndForth : MonoBehaviour
         // NOTE: Uncomment the four code lines below, and change what is inside the "if statement" to make this work
         // You should NOT write any new lines of code-- just change what is inside the "if statement"
 
-        //if (Something...)
-        //{
-        //    moveSpeed = -moveSpeed;
-        //}
+        if (transform.position == endPosition)
+        {
+            Vector3 pos = startPosition;
+            startPosition = endPosition;
+            endPosition = pos;
+            moveAmount = 0;
+        }
 
 
     }
